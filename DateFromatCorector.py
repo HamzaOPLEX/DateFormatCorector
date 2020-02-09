@@ -13,21 +13,25 @@ import re,pyperclip
 #1
 text = pyperclip.paste()
 
+if text :
 #2
-REcompile = re.compile(r"[\d]{1,2}[/-][\d]{1,2}[/-][\d]{4}",re.DOTALL) #search DATE RegEX
-REsearch = REcompile.findall(text) #Findall DATE fromat
+    REcompile = re.compile(r"([\d]{1,2}[/-][\d]{1,2}[/-][\d]{4}|[\d]{4}[/-][\d]{1,2}[/-][\d]{1,2}|[\d]{1,2}[/-][\d]{4}[/-][\d]{1,2})",re.DOTALL) #search DATE RegEX
+    REsearch = REcompile.search(text) #Findall DATE fromat
+    print(REsearch.group(1))
 
-#3
-for i in REsearch :
+    #3
+    for i in REsearch :
         REcompile_i = re.compile(r"[\d]{1,2}[/][\d]{1,2}[/][\d]{4}") #Search DATE format that contain / in REsearch
         REsearch_i = REcompile_i.findall(i) #Findall 
 
-#4
+    #4
         for j in REsearch_i : 
-                REcompile_j = re.compile("/")  #search in REsearch_i for /
-                REsub_j = REcompile_j.sub("-",j)     # and change it to -
-                print(REsub_j)
-#5
-                REcompile_text = re.compile(j) #search for the Normal Value that contain / in text
-                REsub_text = REcompile_text.sub(REsub_j,text)  #change it with the new Value that contain -
-                Copy_RE = pyperclip.copy(REsub_text) # #Copy it to ClipBoard
+            REcompile_j = re.compile("/")  #search in REsearch_i for /
+            REsub_j = REcompile_j.sub("-",j)     # and change it to -
+            print(REsub_j)
+    #5
+            REcompile_text = re.compile(j) #search for the Normal Value that contain / in text
+            REsub_text = REcompile_text.sub(REsub_j,text)  #change it with the new Value that contain -
+            Copy_RE = pyperclip.copy(REsub_text) # #Copy it to ClipBoard
+else : 
+    print("Please Copy your text")
